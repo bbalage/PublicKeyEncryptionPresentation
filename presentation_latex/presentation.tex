@@ -18,7 +18,7 @@
     \frametitle{Alapgondolat}
     \textbf{Kérdés}: Hogyan tud két fél titkosítva információt cserélni egymással úgy, hogy soha nem találkoztak?
 
-    \textbf{Válasz}: Nyilvános kulcsú (vagy asszimetrikus) titkosítással.
+    \textbf{Válasz}: Nyilvános kulcsú (vagy aszimmetrikus) titkosítással.
 
     \textbf{Két kulcs van}: Egy publikus és egy privát.
 
@@ -68,12 +68,29 @@
         M' & = f(M, p)  \\
         M  & = f(M', s)
     \end{align*}
+
+    És az is, hogy:
+
+    \begin{align*}
+        M' & = f(M, s)  \\
+        M  & = f(M', p)
+    \end{align*}
 \end{frame}
 
 \begin{frame}
     \frametitle{RSA}
 
-    Text (TODO)
+    \begin{itemize}
+        \item A legismertebb publikus kulcsú titkosítás az RSA algoritmus.
+        \item Az algoritmus a kidolgozóiról kapta a nevét: Ron \textbf{R}ivest, Adi \textbf{S}hamir és \textbf{L}eonard Adleman.
+        \item 1977-ben publikálták.
+        \item Egy ekvivalens verzióját 1973-ban már Clifford Cock már kidolgozta a GCHQ (Government Communication Headquarters),
+              amelyet csak 1997-ben hoztak nyilvánosságra.
+        \item Előnye, hogy nem kell titkos kulcsot átküldeni annak, akivel kommunikálni szeretnénk.
+        \item Hátránya, hogy lényegesen lassabb vele a titkosítás, mint szimmetrikus (egy kulcsú) titkosítási módszerekkel.
+        \item Ez az oka annak, hogy egész fájlok titkosítására inkább szimmetrikus titkosítási módszereket használnak, miközben
+              a szimmetrikus kulcsot aszimmetrikus módon titkosítják.
+    \end{itemize}
 \end{frame}
 
 \end{document}
