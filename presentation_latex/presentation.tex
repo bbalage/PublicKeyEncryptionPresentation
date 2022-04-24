@@ -1,0 +1,79 @@
+\documentclass{beamer}
+\usepackage[hungarian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\usetheme{Boadilla}
+
+\title{Nyilvános kulcsú titkosítás}
+\author{Bolyki Balázs}
+\institute{Miskolci Egyetem}
+\date{\today}
+
+\begin{document}
+
+\titlepage
+
+\begin{frame}
+    \frametitle{Alapgondolat}
+    \textbf{Kérdés}: Hogyan tud két fél titkosítva információt cserélni egymással úgy, hogy soha nem találkoztak?
+
+    \textbf{Válasz}: Nyilvános kulcsú (vagy asszimetrikus) titkosítással.
+
+    \textbf{Két kulcs van}: Egy publikus és egy privát.
+
+    \textbf{Postás példa}:
+
+    \begin{itemize}
+        \item Laci szeretne elküldeni egy dobozt Karcsinak.
+        \item A dobozt csak Karcsi tudhatja kinyitni.
+        \item Ezért Karcsi a postán hagy egy lakatot, amihez rendelkezik kulccsal.
+        \item Laci a postára megy, felrakja a dobozra Karcsi lakatját, és elküldi postán a dobozt.
+        \item Karcsi a kulcsával leszedi a lakatot, és kinyitja a dobozt.
+    \end{itemize}
+
+    A példában a lakat a nyilvános kulcs, a lakatkulcs pedig a titkos kulcs.
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Működés általános leírása}
+
+    \textbf{Kulcsok}:
+    \begin{itemize}
+        \item \textbf{Publikus kulcs}: Mindenki számára elérhető.
+        \item \textbf{Privát kulcs}: Csak az adott fél számára elérhető.
+    \end{itemize}
+    \textbf{Megkötések}:
+    \begin{itemize}
+        \item A publikus kulccsal titkosított üzenet csak a privát kulccsal dekódolható.
+        \item A privát kulccsal titkosított üzenet csak a publikus kulccsal dekódolható.
+    \end{itemize}
+
+    \textbf{Hol használják}:
+    \begin{itemize}
+        \item TLS/SSL (certificate authority)
+        \item Digitális aláírás
+        \item Blockchain (kriptovaluta)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Formális meghatározás}
+
+    Jelölje $s$ a titkos kulcsot, $p$ a publikus kulcsot, $M$ az üzenetet, $f$ pedig a titkosítás műveletét.
+
+    Ekkor igaz az, hogy:
+    \begin{align*}
+        M' & = f(M, p)  \\
+        M  & = f(M', s)
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{RSA}
+
+    Text (TODO)
+\end{frame}
+
+\end{document}
