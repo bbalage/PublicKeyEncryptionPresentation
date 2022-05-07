@@ -121,6 +121,22 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{Digitális aláírás}
+
+    Digitális aláírással hitelesíthetjük a kapott kulcsot. Ez akkor kivitelezhető, ha a titkosítás megfordítható, azaz
+
+    \[D_d(E_e(m)) = E_e(D_d(m)) = m, \forall m \in M \text{ where $M$ is the message space}\]
+
+    Szintén szükséges, hogy az üzenettér és a kódszó tér ugyanaz legyen: $M = C$, ahol $C$ a kódszó tér.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Digitális aláírás (folytatás)}
+
+    Legyen adott az üzenetszó térnek egy altere ($M'$), aminek mérete lényegesen kisebb, mint $M$ mérete.
+\end{frame}
+
+\begin{frame}
     \frametitle{RSA}
 
     \begin{itemize}
