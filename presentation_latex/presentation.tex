@@ -23,6 +23,20 @@
 \titlepage
 
 \begin{frame}
+    \frametitle{Szimmetrikus titkosítás}
+
+    \textbf{Pár szó a szimmetrikus titkosításról...}
+
+    \begin{itemize}
+        \item A szimmetrikus titkosításnál egyetlen kulcs van.
+        \item A kulcs segítségével lehet titkosítani az üzenetet és megfejteni a titkosított szöveget.
+        \item Az üzenet addig lesz titkos, míg az illetéktelen nem ismerik a kulcsot.
+        \item Probléma: hogyan osszák meg egymással a kulcsát?
+        \item Megoldási lehetőség: nyilvános kulcsú titkosítás.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{Alapgondolat}
     \textbf{Kérdés}: Hogyan tud két fél titkosítva információt cserélni egymással úgy, hogy soha nem találkoztak?
 
@@ -45,7 +59,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Működés általános leírása}
+    \frametitle{Működés szabadnyelvi leírása}
 
     \textbf{Kulcsok}:
     \begin{itemize}
@@ -125,15 +139,98 @@
 
     Digitális aláírással hitelesíthetjük a kapott kulcsot. Ez akkor kivitelezhető, ha a titkosítás megfordítható, azaz
 
-    \[D_d(E_e(m)) = E_e(D_d(m)) = m, \forall m \in M \text{ where $M$ is the message space}\]
+    \[D_d(E_e(m)) = E_e(D_d(m)) = m, \forall m \in M \text{ ahol $M$ az üzenettér}\]
 
     Szintén szükséges, hogy az üzenettér és a kódszó tér ugyanaz legyen: $M = C$, ahol $C$ a kódszó tér.
+
+    Tehát felhasználhatjuk $D_d$ transzformációkat arra, hogy létrehozzunk egy kódszót, amelyet $E_e$ transzformációkkal
+    lehet visszaalakítani üzenetszóvá.
 \end{frame}
 
 \begin{frame}
-    \frametitle{Digitális aláírás (folytatás)}
+    \frametitle{Digitális aláírás 2}
 
-    Legyen adott az üzenetszó térnek egy altere ($M'$), aminek mérete lényegesen kisebb, mint $M$ mérete.
+    Legyen adott az üzenetszó térnek egy altere ($M'$), aminek mérete lényegesen kisebb, mint $M$ mérete, és az elemei
+    felismerhetőek valamilyen tulajdonságuk alapján.
+
+    $M'$ elemeinek különleges tulajdonsága publikus.
+
+    A digitális aláírás elkészítéséhez használt függvény $D_d$.
+
+    A digitális aláírás verifikációjához használt függvény $V_A$, amely igazat ad, ha hiteles az üzenet, hamisat, ha
+    nem.
+
+    Jelölje $s$ a digitális aláírást, ami ebben az esetben $D_d(m) = s$, ahol $m \in M$.
+
+    \begin{equation}
+        V_A =
+        \begin{cases}
+            true  & \text{ha $E_e(s) \in M'$,} \\
+            false & \text{egyébként.}
+        \end{cases}
+    \end{equation}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Digitális aláírás 3}
+
+    \textbf{További magyarázat:}
+
+    \begin{itemize}
+        \item A publikus kulcs fogadója a digitális szignatúrát megkísérli hitelesíteni.
+        \item Ezt úgy teszi, hogy $E_e$ transzformációkat elvégzi $s$ szignatúrán.
+        \item Ha a transzformációk eredménye egy olyan $m$, amire az ismert különleges tulajdonság igaz, akkor hiteles a kulcs.
+    \end{itemize}
+
+    Fontos az, hogy $M'$ mérete sokkal kisebb, mint $M$ mérete, így ugyanis az "egzisztenciális hamisítás" nagyon kis eséllyel
+    lesz sikeres.
+
+    Egzisztenciális hamisításról akkor beszélünk, ha a hamisító vesz egy véletlenszerű $s$ szignatúrát, és keres hozzá egy
+    $m \in M$ üzenetet, amit az hitelesíteni tud. Így meghamisíthatja a hitelesítést is.
+
+    Ha csak $m \in M'$ üzenetet fogadunk el hitelesnek, akkor ez a fajta hamisítás sokkal kisebb valószínűséggel kivitelezhető.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Szimmetrikus vs. aszimmetrikus titkosítás 1.}
+
+    \textbf{Szimmetrikus titkosítás előnyei:}
+    \begin{itemize}
+        \item Nagy mennyiségű adatot lehet vele gyorsan titkosítani.
+        \item A kulcsok relatívan rövidek.
+        \item Több különböző algoritmus (akár több különböző kulccsal) láncolható, hogy belőlük még erősebb titkosítás
+              jöjjön létre.
+        \item Messzebbre nyúlik a története, mint a nyilvános kulcsú titkosításnak.
+    \end{itemize}
+
+    \textbf{Szimmetrikus titkosítás hátrányai:}
+    \begin{itemize}
+        \item A kulcs titkosságára mindkét oldalon ügyelni kell (küldő és fogadó oldalon is).
+        \item Nagy hálózatok esetén nehéz számontartani a sok kulcsot a küldő-fogadó párokhoz.
+        \item A kulcsoknak feltehetőleg gyakran kell változnia két fél között (akár minden kommunikációs \textit{session}
+              esetén különbözőnek kell lennie).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Szimmetrikus vs. aszimmetrikus titkosítás 2.}
+
+    \textbf{Aszimmerikus titkosítás előnyei:}
+    \begin{itemize}
+        \item Csak a privát kulcsot kell titokban tartani.
+        \item Egy publikus-privát kulcspár sokáig változatlan maradhat.
+        \item Könnyebb vele a digitális aláírás megvalósítása.
+    \end{itemize}
+
+    \textbf{Aszimmetrikus titkosítás hátrányai:}
+    \begin{itemize}
+        \item Lényegesen lassabb, mint a szimmetrikus titkosítás.
+        \item Lényegesen nagyobbak a kulcsok, mint a szimmetrikus kulcsok.
+        \item A biztonságosságuk nem bizonyított; arra alapoznak, hogy a bennük felmerülő számelméleti nehézségeket tovább
+              tart megoldani, mint ameddig a kulcspárok használatban lesznek.
+        \item Fiatalabb terület, mint a szimmetrikus titkosítás, ugyanis a 70-es évek közepétől kezdve használják.
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -145,10 +242,17 @@
         \item 1977-ben publikálták.
         \item Egy ekvivalens verzióját 1973-ban már Clifford Cock már kidolgozta a GCHQ (Government Communication Headquarters),
               amelyet csak 1997-ben hoztak nyilvánosságra.
-        \item Előnye, hogy nem kell titkos kulcsot átküldeni annak, akivel kommunikálni szeretnénk.
-        \item Hátránya, hogy lényegesen lassabb vele a titkosítás, mint szimmetrikus (egy kulcsú) titkosítási módszerekkel.
-        \item Ez az oka annak, hogy egész fájlok titkosítására inkább szimmetrikus titkosítási módszereket használnak, miközben
-              a szimmetrikus kulcsot aszimmetrikus módon titkosítják.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{ECDSA: Elliptic Curve Digital Signature Algorithm}
+
+    \begin{itemize}
+        \item Széles körben használt digitális aláírás algoritmus.
+        \item \textit{Bitcoin security} alapja.
+        \item TLS is ezt az algoritmust használja.
+        \item Rövidebb kulcsot használ, mint az RSA algoritmus.
     \end{itemize}
 \end{frame}
 
