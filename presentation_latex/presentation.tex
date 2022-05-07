@@ -2,7 +2,15 @@
 \usepackage[hungarian]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
-
+\usepackage{graphicx}
+\graphicspath{{./images/}}
+\usepackage[
+    backend=bibtex,
+    style=numeric,
+    citestyle=numeric,
+    sorting=none]
+    {biblatex}
+\addbibresource{citations}
 \usetheme{Boadilla}
 
 \title{Nyilvános kulcsú titkosítás}
@@ -32,7 +40,7 @@
         \item Karcsi a kulcsával leszedi a lakatot, és kinyitja a dobozt.
     \end{itemize}
 
-    A példában a lakat a nyilvános kulcs, a lakatkulcs pedig a titkos kulcs.
+    A példában a lakat a nyilvános kulcs, a lakatkulcs pedig a privát kulcs.
 
 \end{frame}
 
@@ -44,11 +52,10 @@
         \item \textbf{Publikus kulcs}: Mindenki számára elérhető.
         \item \textbf{Privát kulcs}: Csak az adott fél számára elérhető.
     \end{itemize}
-    \textbf{Megkötések}:
-    \begin{itemize}
-        \item A publikus kulccsal titkosított üzenet csak a privát kulccsal dekódolható.
-        \item A privát kulccsal titkosított üzenet csak a publikus kulccsal dekódolható.
-    \end{itemize}
+    \textbf{Megkötés}: A publikus kulccsal titkosított üzenet csak a privát kulccsal dekódolható.
+
+    \textbf{Megfordítható (\textit{reversible}) abban az esetben, ha } a privát kulccsal titkosított
+    üzenet dekódolható a publikus kulccsal.
 
     \textbf{Hol használják}:
     \begin{itemize}
@@ -61,20 +68,56 @@
 \begin{frame}
     \frametitle{Formális meghatározás}
 
-    Jelölje $s$ a titkos kulcsot, $p$ a publikus kulcsot, $M$ az üzenetet, $f$ pedig a titkosítás műveletét.
+    Legyen $\{E_e: e \in K\}$ titkosítási (\textit{encryption}) transzformációk halmaza, míg $\{D_d: d \in K\}$
+    pedig visszafejtési transzformációk halmaza, ahol $K$ a kulcstér.
 
-    Ekkor igaz az, hogy:
-    \begin{align*}
-        M' & = f(M, p)  \\
-        M  & = f(M', s)
-    \end{align*}
+    Vegyünk egy párt ezek közül: $(E_e, D_d)$. Ekkor:
 
-    És az is, hogy:
+    \begin{itemize}
+        \item $E_e(m) = c$, ahol $m$ (\textit{message}) egy üzenetszó, $c$ pedig egy titkosított szöveg.
+        \item $D_d(c) = m$, tehát a $D_d$ transzformációkkal visszafejthető az $E_e$ által előállított $c$ titkosított
+              szövegből $m$ üzenetszó.
+    \end{itemize}
 
-    \begin{align*}
-        M' & = f(M, s)  \\
-        M  & = f(M', p)
-    \end{align*}
+    \textbf{A következőknek teljesülnie kell:}
+
+    \begin{itemize}
+        \item $E_e$ ismeretében és $D_d$ ismeretének hiányában $c$ kódszóból nem kivitelezhető $m$ előállítása (belátható
+              időn belül).
+        \item Ebből az is következik, hogy $E_e$ ismeretében $D_d$ kikövetkeztetése szintén kivitelezhetetlen.
+    \end{itemize}
+
+    \textbf{Még ha egy támadó el is fogja a $B$-nek szóló üzeneteket, akkor sem fogja tudni elolvasni őket.}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Szemléltetés}
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[scale=0.5]{encryption.png}
+        \caption{Publikus kulcsú titkosítás \cite{Menezes2001}}
+        \label{fig_encryption}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Autentikációs probléma}
+
+    A publikus kulcsú titkosításnál is felvetődik a \textit{man-in-the-middle} probléma.
+
+    \begin{itemize}
+        \item Tegyük fel, hogy $A$ üzenetet akar küldeni $B$-nek.
+        \item Ahhoz, hogy ezt a publikus kulcsú titkosítás alkalmazásával megtehesse, először meg kell szereznie a
+              publikus kulcsot.
+        \item A publikus kulcs megszerzése nem biztonságos csatornán keresztül történik (ha biztonságos lenne a csatorna,
+              akkor akár szimmetrikus kulcsú titkosítást is használhatnánk).
+        \item Tegyük fel, hogy $A$ üzenetet küld, amiben elkéri $B$ publikus kulcsát, viszont $C$ elfogja ezt az üzenetet,
+              és elküldi $A$-nak a saját publikus kulcsát.
+        \item Ebben az esetben a $B$-nek küldött üzeneteket már $C$ nem csak elfogja, hanem el is tudja olvasni.
+    \end{itemize}
+
+    \textbf{Következtetés:} Meg kell bizonyosodni róla, hogy a publikus kulcs, amit $A$ megkap valóban $B$-hez tartozik.
 \end{frame}
 
 \begin{frame}
@@ -91,6 +134,17 @@
         \item Ez az oka annak, hogy egész fájlok titkosítására inkább szimmetrikus titkosítási módszereket használnak, miközben
               a szimmetrikus kulcsot aszimmetrikus módon titkosítják.
     \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Felhasznált irodalom}
+
+    \printbibliography[heading=bibintoc]
+\end{frame}
+
+\begin{frame}
+    \Huge
+    \textbf{Köszönöm a figyelmet!}
 \end{frame}
 
 \end{document}
